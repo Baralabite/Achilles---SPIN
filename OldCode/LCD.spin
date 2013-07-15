@@ -1,7 +1,7 @@
 OBJ
 
-  Serial: "LightweightSerial"
-  num : "Numbers"
+  Serial: "Simple_Serial"
+  num : "Simple_Numbers"
 
 PUB Start(LCDPin)
 
