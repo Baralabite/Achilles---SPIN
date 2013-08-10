@@ -28,8 +28,8 @@ PUB getCPU
 
 PUB getCurrentDraw | MIPS, mA, I
 
-  MIPS := 80_000_000 / 4 * GetUsedCogs
-  mA := (MIPS * 500) / 1000
+  MIPS = 80_000_000 / 4 * GetUsedCogs
+  mA = (MIPS * 500) / 1000
   return mA
 
 PRI TempCog
