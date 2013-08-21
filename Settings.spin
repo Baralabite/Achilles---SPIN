@@ -1,6 +1,6 @@
 CON
 
-  SERVO_SIGNAL                  = 0
+  SERVO_SIGNAL                  = 19
   PING_SIGNAL                   = 1
   LIGHT_SIGNAL                  = 2
 

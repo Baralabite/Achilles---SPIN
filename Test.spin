@@ -5,22 +5,14 @@ CON
 
 OBJ
 
-  Serial:       "FullDuplexSerial~"
-  Button:       "Button"
-  Pot:          "Potentiometer"
-  Settings:     "Settings"
   Motors:       "Motors"
-  ADC:          "ADC"
-  CMUCam:       "CMUCam"
-  Ping:         "Ping"     
 
 PUB Main
 
-  Serial.start(31, 30, 0, 115200)
+  Motors.start(3, 6, 9)
+  Motors.clawOpen
+  Motors.setForward(30)
 
   repeat
-    Serial.tx(16)
-    Serial.dec(Ping.Centimeters(1))
-    waitcnt(clkfreq/10+cnt)
     
     
