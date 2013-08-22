@@ -2,7 +2,7 @@ CON
 
   SERVO_SIGNAL                  = 19
   PING_SIGNAL                   = 1
-  LIGHT_SIGNAL                  = 2
+  LAMP_SIGNAL                  = 20
 
   ESCON_LEFT_SPEED              = 3
   ESCON_LEFT_CW                 = 4
@@ -16,12 +16,12 @@ CON
   ESCON_ARM_CW                  = 10
   ESCON_ARM_CCW                 = 11
 
-  ARM_POTENTIOMETER             = 12
-  BUTTON_TOP                    = 15
-  BUTTON_BOTTOM                 = 14
+  ARM_POTENTIOMETER             = -1
+  BUTTON_TOP                    = 12
+  BUTTON_BOTTOM                 = 13
 
-  CMUCAM_TX                     = 17
-  CMUCAM_RX                     = 16
+  CMUCAM_TX                     = 15
+  CMUCAM_RX                     = 14
   CMUCAM_MODIFIER               = 0
   CMUCAM_BLACK_RED_BOTTOM       = 25
   CMUCAM_BLACK_RED_TOP          = 73
@@ -48,8 +48,9 @@ CON
   BLUETOOTH_TX                  = 18
   BLUETOOTH_RX                  = 19
 
-  IMU_SCL                       = 20
-  IMU_SDA                       = 21
+  IMU_ADDR                      = $1E                        
+  IMU_SCL                       = 22
+  IMU_SDA                       = 23
   
   ADC_DPIN                      = 23
   ADC_CPIN                      = 22
