@@ -1,10 +1,14 @@
 VAR
 
-  long timer
+  long timer, mod
 
 PUB StartTimer
 
   timer := -cnt
+
+PUB StartTimerX(modifier)
+
+  mod := modifier
 
 PUB StopTimer
 
@@ -17,11 +21,11 @@ PUB StopTimer_
 
 PUB getTimeMs
 
-  return timer / (clkfreq / 1_000)
+  return (timer / (clkfreq / 1_000))+mod
 
 PUB getTimeSec
 
-  return getTimeMs/1000
+  return getTimeMs+mod/1000
 
 PUB getUpdatesPerSecond(time)
 

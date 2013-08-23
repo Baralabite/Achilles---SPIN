@@ -64,6 +64,7 @@ PUB start(leftPin_, rightPin_, armPin_)
   PWM.Start
   Halt
   setArmSpeed(10)
+  'setArmDirection(0)
 
 PUB setLeftSpeed(speed)
 
@@ -306,7 +307,11 @@ PUB raiseArm
 
   setArmDirection(1)
   setArmSpeed(50)
-  repeat until Button.getTopArmButton == 1
+  repeat
+    if Button.getTopArmButton == 1
+      waitcnt(clkfreq/10+cnt)
+      if Button.getTopArmButton == 1
+        quit
   setArmSpeed(10)
 
 PUB lowerArm
@@ -314,7 +319,21 @@ PUB lowerArm
   setArmDirection(0)
   setArmSpeed(50)
   repeat until Button.getBottomArmButton == 1
-  setArmSpeed(10)    
+  setArmSpeed(10)
+
+PUB armUp(speed, time)
+
+  setArmDirection(1)
+  setArmSpeed(speed)
+  waitcnt((clkfreq/1_000)*time+cnt)
+  setArmSpeed(10)
+
+PUB armDown(speed, time)
+
+  setArmDirection(0)
+  setArmSpeed(speed)
+  waitcnt((clkfreq/1_000)*time+cnt)
+  setArmSpeed(10) 
 
 PUB setRawPWMDuty(pin, duty)
 
@@ -327,7 +346,7 @@ PUB setRawServo(pin, pulsewidth)
 
 PUB clawOpen
 
-    PWM.Servo(Settings#SERVO_SIGNAL, 1400)
+    PWM.Servo(Settings#SERVO_SIGNAL, 1500)
 
 PUB clawClose
 

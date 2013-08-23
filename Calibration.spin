@@ -20,11 +20,16 @@ VAR
 
 PUB Main | x, y 
 
-  Serial.start(31, 30, 0, 115200)
+  Serial.start(31, 30, 0, 19200)
   CMUCam.start(Settings#CMUCAM_RX, Settings#CMUCAM_TX)
-  Serial.str(string("CMUCam INitalized.", 13))
+  Serial.str(string("CMUCam Initalized.", 13))
   CMUCam.setPollMode(1)
   CMUCam.changeBaud(57600)
+
+  waitcnt(clkfreq/2+cnt)
+
+  CMUCam.setAutoGain(0)
+  
   Buttons.init
   Motors.start(3, 6, 9)
 
@@ -147,14 +152,16 @@ PUB Main | x, y
   repeat until Buttons.getTopArmButton == 1
   Serial.str(String("Calibrating Green...", 13))
 
-  Motors.setRawPWMDuty(Settings#LAMP_SIGNAL, Settings#CMUCAM_LAMP_LOW)
+  CMUCam.setTrackingWindow(50, 30, 110, 90)
+  
+  Motors.setRawPWMDuty(Settings#LAMP_SIGNAL, Settings#CMUCAM_LAMP_HIGH)
   bestBrightness := 0
   bestBrightnessValue := 0
   bestContrast := 0
   bestContrastValue := 0
   
   CMUCam.setTrackingParameters(0, 255, 0, 255, 0, 255)
-  CMUCam.setTrackingWindow(0, 0, 160, 120)
+  
   repeat 10
     CMUCam.updateColorData
     waitcnt(clkfreq/10+cnt)
@@ -236,6 +243,8 @@ PUB Main | x, y
   Serial.str(String("CC "))
   Serial.dec(bestContrast)
   Serial.str(String(13, 13, 13, 13))
+
+  CMUCam.setTrackingWindow(0, 0, 160, 120)
 
   repeat
 
