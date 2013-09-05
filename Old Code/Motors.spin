@@ -64,10 +64,6 @@ PUB start(leftPin_, rightPin_, armPin_)
   PWM.Start
   Halt
   setArmSpeed(10)
-  setLeftSpeed(10)
-  setRightSpeed(10)
-  setLeftDirection(0)
-  setRightDirection(0)
   'setArmDirection(0)
 
 PUB setLeftSpeed(speed)
