@@ -58,40 +58,55 @@ OBJ
 VAR
 
   byte leftSpeed, rightSpeed
+  byte GOAL_SPEED, INTERSECTION_SPEED
+  byte CORNER_SATURATION_THRESHOLD, X_SCALE
+  byte Y_INTERVENTION_THRESHOLD
 
-PUB calculateSpeeds(x_, y) | x
+PUB Init
+
+  GOAL_SPEED                    := Settings#GOAL_SPEED
+  INTERSECTION_SPEED            := Settings#INTERSECTION_SPEED
+  CORNER_SATURATION_THRESHOLD   := Settings#CORNER_SATURATION_THRESHOLD
+  X_SCALE                       := Settings#X_SCALE
+  Y_INTERVENTION_THRESHOLD      := Settings#Y_INTERVENTION_THRESHOLD
+
+PUB setSpeed(speed)
+
+  GOAL_SPEED := speed
+
+PUB calculateSpeeds(x_, y) | x    
 
     x := normalizeX(x_)
 
-    if y > 75
+    if y > Y_INTERVENTION_THRESHOLD
       if x == 0
-        leftSpeed := Settings#GOAL_SPEED
-        rightSpeed := Settings#GOAL_SPEED
+        leftSpeed := GOAL_SPEED
+        rightSpeed := GOAL_SPEED
       elseif x > 0
-        leftSpeed := Settings#GOAL_SPEED
+        leftSpeed := GOAL_SPEED
         rightSpeed := 0
       elseif x < 0
         leftSpeed := 0
-        rightSpeed := Settings#GOAL_SPEED
+        rightSpeed := GOAL_SPEED
 
     else
     
-      if x >  Settings#X_SCALE
+      if x >  X_SCALE
         leftSpeed := 0
-        rightSpeed := Settings#GOAL_SPEED
-      elseif abs_(x) > Settings#X_SCALE
-        leftSpeed := Settings#GOAL_SPEED
+        rightSpeed := GOAL_SPEED
+      elseif abs_(x) > X_SCALE
+        leftSpeed := GOAL_SPEED
         rightSpeed := 0
       else
         if x == 0
-          leftSpeed := Settings#GOAL_SPEED
-          rightSpeed := Settings#GOAL_SPEED
+          leftSpeed := GOAL_SPEED
+          rightSpeed := GOAL_SPEED
         elseif x > 0
-          leftSpeed := Settings#GOAL_SPEED
+          leftSpeed := GOAL_SPEED
           rightSpeed := findSpeed(abs_(x))
         elseif x < 0
           leftSpeed := findSpeed(abs_(x))
-          rightSpeed := Settings#GOAL_SPEED
+          rightSpeed := GOAL_SPEED
 
   leftSpeed := speedUnitConverter(leftSpeed)
   rightSpeed := speedUnitConverter(rightSpeed)
@@ -114,7 +129,7 @@ PUB getRightSpeed
 
 PRI findSpeed(x)
 
-    return Settings#GOAL_SPEED-(x*(Settings#GOAL_SPEED*Settings#CONVERTER_CONSTANT/Settings#X_SCALE))/Settings#CONVERTER_CONSTANT        
+    return GOAL_SPEED-(x*(GOAL_SPEED*Settings#CONVERTER_CONSTANT/X_SCALE))/Settings#CONVERTER_CONSTANT        
 
 PRI normalizeX(x)
 

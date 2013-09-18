@@ -34,29 +34,23 @@ CON
   IMU_SCL                       = 22
   IMU_SDA                       = 23
 
+  COMPUTER_TX                   = 30
+  COMPUTER_RX                   = 31                        
+
   {{CMUCam}}
 
         {{CMUCam Calibration}}
   
         CMUCAM_MODIFIER               = 0
         CMUCAM_BLACK_RED_BOTTOM       = 0
-        CMUCAM_BLACK_RED_TOP          = 170
+        CMUCAM_BLACK_RED_TOP          = 100
         CMUCAM_BLACK_GREEN_BOTTOM     = 0 
         CMUCAM_BLACK_GREEN_TOP        = 255
         CMUCAM_BLACK_BLUE_BOTTOM      = 0
         CMUCAM_BLACK_BLUE_TOP         = 255
         CMUCAM_BLACK_BRIGHTNESS       = 0
-        CMUCAM_BLACK_CONTRAST         = 15
+        CMUCAM_BLACK_CONTRAST         = -3
         CMUCAM_BLACK_NOISE_FILTER     = 0
-        CMUCAM_GREEN_RED_BOTTOM       = 90  'ST 90 150 140 200 120 180
-        CMUCAM_GREEN_RED_TOP          = 150
-        CMUCAM_GREEN_GREEN_BOTTOM     = 140
-        CMUCAM_GREEN_GREEN_TOP        = 200
-        CMUCAM_GREEN_BLUE_BOTTOM      = 120
-        CMUCAM_GREEN_BLUE_TOP         = 180
-        CMUCAM_GREEN_BRIGHTNESS       = 0
-        CMUCAM_GREEN_CONTRAST         = -5
-        CMUCAM_GREEN_NOISE_FILTER     = 0
 
         {{CMUCam Lamp}}
          
@@ -74,7 +68,7 @@ CON
   LEFT_MAX_SPEED                = 100 
   RIGHT_MAX_SPEED               = 100
 
-  PWM_DUTY_BOTTOM               = 30  
+  PWM_DUTY_BOTTOM               = 10  
   PWM_DUTY_TOP                  = 90                                                
 
   {{ADC Settings}}
@@ -91,11 +85,12 @@ CON
 
   {{Line Following Algorithm}}
 
-  JUNCTION_BLK_PIXEL_SATURATION = 200
-  JUNCTION_GRN_PIXEL_SATURATION = 17
-
-  GOAL_SPEED = 35
-  X_SCALE = 40
+  GOAL_SPEED                    = 35 '40 is safe
+  INTERSECTION_SPEED            = 20
+  CORNER_SATURATION_THRESHOLD   = 200
+  CORNER_SCALE                  = 40
+  X_SCALE                       = 60 '55 is safe
+  Y_INTERVENTION_THRESHOLD      = 75 '75 is safe                          
   
 
   {{Water Tower}}
@@ -107,6 +102,7 @@ CON
   CONVERTER_CONSTANT            = 10_000                        
   LEFT                          = 1
   RIGHT                         = 2
+  NUTER                         = 3
 
   {{PID Settings}}
 

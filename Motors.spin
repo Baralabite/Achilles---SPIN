@@ -356,6 +356,10 @@ PUB clawClose
 
     PWM.Servo(Settings#SERVO_SIGNAL, 2000)
 
+PUB clawFullyOpen
+
+  PWM.Servo(Settings#SERVO_SIGNAL, 1000)
+
 PUB clawHalfOpen
 
   PWM.Servo(Settings#SERVO_SIGNAL, 1900)
