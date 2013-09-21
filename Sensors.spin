@@ -95,9 +95,9 @@ PUB firstLoop | untiltTimer
       tiltTimer := 0
       untiltTimer++
 
-    if tiltTimer > 7
+    if tiltTimer > 10
       tiltDirection := findTiltDirection
-    if untiltTimer > 7
+    if untiltTimer > 10
       tiltDirection := Settings#NONE
        
     
@@ -175,6 +175,10 @@ PUB findTiltDirection
     return Settings#BACKWARD
   else
     return Settings#NONE
+
+PUB isTilting
+
+  return not findTiltDirection == Settings#NONE
 
 PUB getTiltDirection
 
