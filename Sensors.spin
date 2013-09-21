@@ -9,10 +9,11 @@ OBJ
   Profiler[2]:  "Profiler"
   ADC:          "ADC"
   Gyro:         "Gyroscope"
+  Accel:        "Accelerometer"
 
 VAR
 
-  long firstLoopStack[100], ADCLoopStack[100]
+  long firstLoopStack[100]
   
   long frontUltrasonicDistance
   long frontIRSensor
@@ -25,6 +26,9 @@ VAR
   long firstLoopTime, secondLoopTime
 
   byte firstLoopCogID
+  
+  word tiltTimer
+  byte tiltDirection
 
 PUB start
 
@@ -38,10 +42,6 @@ PUB stopFirstLoop
 
   cogstop(firstLoopCogID)
   'ADC.Stop
-
-PUB startADCLoop
-
-  cognew(ADCLoop, @ADCLoopStack)
 
 PUB restartFirstLoop
 
@@ -68,12 +68,12 @@ PUB getSecondLoopTime
 
   return secondLoopTime
 
-PUB firstLoop
+PUB firstLoop | untiltTimer
 
   ADC.Start(Settings#ADC_DPIN, Settings#ADC_CPIN, Settings#ADC_SPIN, Settings#ADC_MODE)
   'Compass.init
-  'Accel.init
-  'Gyro.init
+  Accel.init
+  Gyro.init
 
   repeat
     Profiler[0].StartTimer
@@ -82,25 +82,28 @@ PUB firstLoop
     frontIRSensor := ADC.in(0)
     leftIRSensor := ADC.in(1)
     'Compass.rd_xyz(@compassX, @compassY, @compassZ)
-    'Accel.rd_xyz(@accelX, @accelY, @accelZ)
+    Accel.rd_xyz(@accelX, @accelY, @accelZ)
     'gyroX += Gyro.getX/5000
     'gyroY += Gyro.getY/5000
-    'gyroZ += Gyro.getZ/5000
+    gyroZ += Gyro.getZ/5000
     firstLoopTime := Profiler[0].StopTimer_
+
+    if not findTiltDirection == Settings#NONE
+      tiltTimer++
+      untiltTimer := 0
+    else
+      tiltTimer := 0
+      untiltTimer++
+
+    if tiltTimer > 7
+      tiltDirection := findTiltDirection
+    if untiltTimer > 7
+      tiltDirection := Settings#NONE
+       
     
     
-    waitcnt(clkfreq/(1000/(36-firstLoopTime))+cnt) 'Keep loop running nicely at 20ms
+    waitcnt(clkfreq/(1000/(36-firstLoopTime))+cnt) 'Keep loop running nicely at 36ms
     secondLoopTime := Profiler[1].StopTimer_
-
-PUB ADCLoop
-
-  ADC.Start(Settings#ADC_DPIN, Settings#ADC_CPIN, Settings#ADC_SPIN, Settings#ADC_MODE)
-
-  repeat
-    frontIRSensor := ADC.in(0)
-    leftIRSensor := ADC.in(1)
-
-    waitcnt(clkfreq/100+cnt)
 
 PUB getTiltX
 
@@ -143,3 +146,43 @@ PUB resetGyro
   gyroX := 0
   gyroY := 0
   gyroZ := 0
+
+PUB isTiltingLeft
+
+  return (getTiltY < 0 and getTiltY < (Settings#ACCELEROMETER_Y_LEVEL - Settings#ACCELEROMETER_ERROR_MARGIN))
+
+PUB isTiltingRight
+
+  return (getTiltY > 0 and getTiltY > (Settings#ACCELEROMETER_Y_LEVEL + Settings#ACCELEROMETER_ERROR_MARGIN)) 
+
+PUB isTiltingForward
+
+  return (getTiltX < 0 and getTiltX < (Settings#ACCELEROMETER_X_LEVEL - Settings#ACCELEROMETER_ERROR_MARGIN))
+
+PUB isTiltingBackward
+
+  return (getTiltX > 0 and getTiltX > (Settings#ACCELEROMETER_X_LEVEL + Settings#ACCELEROMETER_ERROR_MARGIN))  
+
+PUB findTiltDirection
+
+  if isTiltingLeft
+    return Settings#LEFT
+  elseif isTiltingRight
+    return Settings#RIGHT
+  elseif isTiltingForward
+    return Settings#FORWARD
+  elseif isTiltingBackward
+    return Settings#BACKWARD
+  else
+    return Settings#NONE
+
+PUB getTiltDirection
+
+  return tiltDirection
+
+PRI abs_(number)
+
+  if number < 0
+    return -number
+  else
+    return number  

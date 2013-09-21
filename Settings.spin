@@ -49,7 +49,7 @@ CON
         CMUCAM_BLACK_BLUE_BOTTOM      = 0
         CMUCAM_BLACK_BLUE_TOP         = 255
         CMUCAM_BLACK_BRIGHTNESS       = 0
-        CMUCAM_BLACK_CONTRAST         = -3
+        CMUCAM_BLACK_CONTRAST         = -5
         CMUCAM_BLACK_NOISE_FILTER     = 0
 
         {{CMUCam Lamp}}
@@ -62,6 +62,13 @@ CON
   Y_RES                         = 120
   X_MIDPOINT                    = X_RES/2
   Y_MIDPOINT                    = Y_RES/2
+
+  {{IMU}}
+
+  ACCELEROMETER_X_LEVEL         = 0
+  ACCELEROMETER_Y_LEVEL         = 23
+  ACCELEROMETER_Z_LEVEL         = 118
+  ACCELEROMETER_ERROR_MARGIN    = 10
 
   {{Motors}}
 
@@ -90,19 +97,34 @@ CON
   CORNER_SATURATION_THRESHOLD   = 200
   CORNER_SCALE                  = 40
   X_SCALE                       = 60 '55 is safe
-  Y_INTERVENTION_THRESHOLD      = 75 '75 is safe                          
+  Y_INTERVENTION_THRESHOLD      = 75 '75 is safe
+
+  {{Gridlock and Corner Detection}}
+
+  GRIDLOCK_DELTA_THRESHOLD      = 1200 'ms
+                               
   
 
   {{Water Tower}}
 
+  TOWER_DETECT_THRESHOLD        = 9
   TOWER_IR_ADJUST_THRESHOLD     = 300
+
+  {{Marked Time Indexes}}
+
+  CORNER_TIME_BEG               = 0
+  CORNER_TIME_END               = 1
+  SCAN_TIME                     = 2  
 
   {{Constants}}
 
-  CONVERTER_CONSTANT            = 10_000                        
+  CONVERTER_CONSTANT            = 10_000
+  NONE                          = 0                       
   LEFT                          = 1
   RIGHT                         = 2
   NUTER                         = 3
+  FORWARD                       = 4
+  BACKWARD                      = 5
 
   {{PID Settings}}
 

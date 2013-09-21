@@ -9,15 +9,17 @@ PUB StopCog(id)
 
 PUB GetUsedCogs | x
 
-  x := 0
-  stack := false
-  x := cognew(TempCog, @stack[0])
-  StopCog(x)
-  return x
+  'stack := false
+  x := cognew(TempCog, @stack)
+  if x == -1
+    return 8
+  else
+    return x
+  
 
 PUB CogsAvaliable
 
-  if GetUsedCogs  < 8
+  if GetUsedCogs < 8
     return true
   else
     return false
@@ -33,4 +35,3 @@ PUB getCurrentDraw | MIPS, mA, I
   return mA
 
 PRI TempCog
-  Abort  
